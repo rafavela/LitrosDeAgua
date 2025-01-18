@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">LitrosDeAgua</string>
+    <string name="ShowerTime">Cuanto te tardaste en bañar?</string>
+    <string name="TenMinutes">10 minutos</string>
+    <string name="MoreThanTenMinutes">Mas de 10 minutos</string>
+    <string name="BottledWater">Compraste hoy agua embotellada?</string>
+    <string name="BottledWaterYes">Si</string>
+    <string name="BottledWaterNo">No</string>
+    <string name="Behaviour1">Conducta 1</string>
+    <string name="Behaviour1Answer1">Respuesta 1</string>
+    <string name="Behaviour1Answer2">Respuesta 2</string>
+    <string name="Behaviour1Answer3">Respuesta 3</string>
+    <string name="Behaviour1Answer4">Respuesta 4</string>
+    <string name="Behaviour1Answer5">Respuesta 5</string>
+    <string name="Behaviour2">Conducta 2</string>
+    <string name="Behaviour2Answer1">Respuesta 1</string>
+    <string name="Behaviour2Answer2">Respuesta 2</string>
+    <string name="Behaviour2Answer3">Respuesta 3</string>
+    <string name="Behaviour2Answer4">Respuesta 4</string>
+    <string name="Behaviour2Answer5">Respuesta 5</string>
+    <string name="Behaviour3">Conducta 3</string>
+    <string name="Behaviour3Answer1">Respuesta 1</string>
+    <string name="Behaviour3Answer2">Respuesta 2</string>
+    <string name="Behaviour3Answer3">Respuesta 3</string>
+    <string name="Behaviour3Answer4">Respuesta 4</string>
+    <string name="Behaviour3Answer5">Respuesta 5</string>
+    <string name="Behaviour4">Conducta 4</string>
+    <string name="Behaviour4Answer1">Respuesta 1</string>
+    <string name="Behaviour4Answer2">Respuesta 2</string>
+    <string name="Behaviour4Answer3">Respuesta 3</string>
+    <string name="Behaviour4Answer4">Respuesta 4</string>
+    <string name="Behaviour4Answer5">Respuesta 5</string>
 </resources>
