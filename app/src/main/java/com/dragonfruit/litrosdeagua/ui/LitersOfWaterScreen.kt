@@ -1,12 +1,10 @@
-package com.dragonfruit.litrosdeagua.ui.theme
+package com.dragonfruit.litrosdeagua.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.dragonfruit.litrosdeagua.data.BehaviourList
-import com.dragonfruit.litrosdeagua.ui.BehaviourComponent
-import com.dragonfruit.litrosdeagua.ui.BehaviourLayout
-import com.dragonfruit.litrosdeagua.ui.PointerHeader
+import com.dragonfruit.litrosdeagua.ui.theme.LitrosDeAguaTheme
 
 @Composable
 fun LitersOfWaterLayout(){
