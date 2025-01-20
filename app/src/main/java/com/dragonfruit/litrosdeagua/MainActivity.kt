@@ -6,14 +6,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.dragonfruit.litrosdeagua.data.BehaviourList
-import com.dragonfruit.litrosdeagua.ui.BehaviourComponent
-import com.dragonfruit.litrosdeagua.ui.BehaviourLayout
+import com.dragonfruit.litrosdeagua.ui.LitersOfWaterLayout
 import com.dragonfruit.litrosdeagua.ui.theme.LitrosDeAguaTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,8 +21,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LitrosDeAguaTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) {
-                    BehaviourLayout(BehaviourList.behaviours)
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ){
+                    LitersOfWaterLayout()
                 }
             }
         }
@@ -35,6 +36,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     LitrosDeAguaTheme {
-        BehaviourLayout(BehaviourList.behaviours)
+        LitersOfWaterLayout()
     }
 }
