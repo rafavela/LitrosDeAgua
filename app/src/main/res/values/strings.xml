@@ -30,4 +30,5 @@
     <string name="Behaviour4Answer3">Respuesta 3</string>
     <string name="Behaviour4Answer4">Respuesta 4</string>
     <string name="Behaviour4Answer5">Respuesta 5</string>
+    <string name="MeasureInLiters">Litros de agua</string>
 </resources>
