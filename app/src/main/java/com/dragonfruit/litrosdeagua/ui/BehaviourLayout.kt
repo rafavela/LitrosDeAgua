@@ -25,7 +25,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 
 @Composable
 fun BehaviourLayout(behaviourList: List<Behaviour>){
-    LazyColumn {
+    LazyColumn(
+        modifier = Modifier.fillMaxWidth()
+    ) {
         items (behaviourList) {
             BehaviourComponent(it)
         }
