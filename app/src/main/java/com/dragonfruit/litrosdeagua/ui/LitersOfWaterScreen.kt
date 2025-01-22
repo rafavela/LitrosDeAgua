@@ -36,7 +36,7 @@ fun LitersOfWaterLayout(){
                 .padding(innerPadding),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            PointerHeader(consumption = 9.12F)
+            PointerHeader(consumption = litersOfWaterUiStateUiState.consumptionAmount)
             NavigationLayout(
                 litersOfWaterUiStateUiState,
                 behaviourClick = {viewModel.showBehavioursScreen()},
@@ -45,15 +45,18 @@ fun LitersOfWaterLayout(){
             Spacer(
                 modifier = Modifier.height(12.dp)
             )
-            ShowScreen(litersOfWaterUiStateUiState)
+            ShowScreen(viewModel, litersOfWaterUiStateUiState)
         }
     }
 }
 
 @Composable
-fun ShowScreen(litersOfWaterUiStateUiState: LitersOfWaterUiState){
+fun ShowScreen(viewModel: LitersOfWaterViewModel, litersOfWaterUiStateUiState: LitersOfWaterUiState){
     when(litersOfWaterUiStateUiState.litersOfWaterScreen){
-        LitersOfWaterScreen.BEHAVIOUR_SCREEN -> BehaviourLayout(BehaviourList.behaviours)
+        LitersOfWaterScreen.BEHAVIOUR_SCREEN -> BehaviourLayout(
+            viewModel = viewModel,
+            litersOfWaterUiStateUiState = litersOfWaterUiStateUiState
+        )
         LitersOfWaterScreen.WATERING_SCREEN -> WaterPlantLayout()
     }
 }

@@ -2,6 +2,8 @@ package com.dragonfruit.litrosdeagua.ui
 
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import com.dragonfruit.litrosdeagua.data.Action
+import com.dragonfruit.litrosdeagua.data.Behaviour
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -29,5 +31,44 @@ class LitersOfWaterViewModel: ViewModel() {
                 behaviourButtonColor = Color.Green,
             )
         }
+    }
+
+    fun addWaterConsumption(selectedBehaviour: Behaviour, selectedAction: Action){
+        val behaviourListCopy = updateSelectedBehaviour(selectedBehaviour, selectedAction)
+        val newConsumptionAmount = behaviourListCopy.map { it.waterConsumed }.sum()
+
+        _uiState.update {
+            it.copy(
+                behaviourList = behaviourListCopy.toList(),
+                consumptionAmount = newConsumptionAmount,
+            )
+        }
+    }
+
+    private fun updateSelectedBehaviour(
+        selectedBehaviour: Behaviour,
+        selectedAction: Action
+    ): List<Behaviour>{
+        val behaviourListCopy =
+            _uiState
+                .value
+                .behaviourList
+                .toMutableList()
+        val indexBehaviour = behaviourListCopy.indexOf(selectedBehaviour)
+        val actionListCopy = behaviourListCopy[indexBehaviour].actionList
+        val indexAction = actionListCopy.indexOf(selectedAction)
+        val newActionList =
+            actionListCopy
+                .map { it.copy(isActionSelected = false) }
+                .toMutableList()
+        newActionList[indexAction] = newActionList[indexAction].copy(isActionSelected = true)
+
+        behaviourListCopy[indexBehaviour] =
+            behaviourListCopy[indexBehaviour].copy(
+                waterConsumed = selectedAction.waterConsumed,
+                actionList = newActionList
+            )
+
+        return behaviourListCopy
     }
 }

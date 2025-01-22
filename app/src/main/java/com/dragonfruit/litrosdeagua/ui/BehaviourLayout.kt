@@ -19,23 +19,33 @@ import androidx.compose.ui.text.style.TextAlign
 import com.dragonfruit.litrosdeagua.R
 import com.dragonfruit.litrosdeagua.data.Action
 import com.dragonfruit.litrosdeagua.data.Behaviour
-import com.dragonfruit.litrosdeagua.data.BehaviourList
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun BehaviourLayout(behaviourList: List<Behaviour>){
+fun BehaviourLayout(
+    viewModel: LitersOfWaterViewModel,
+    litersOfWaterUiStateUiState: LitersOfWaterUiState
+){
     LazyColumn(
         modifier = Modifier.fillMaxWidth()
     ) {
-        items (behaviourList) {
-            BehaviourComponent(it)
+        items (litersOfWaterUiStateUiState.behaviourList) {
+            BehaviourComponent(viewModel = viewModel, behaviour = it)
         }
     }
 }
 
 @Composable
-fun BehaviourComponent(behaviour: Behaviour){
+fun BehaviourComponent(
+    viewModel: LitersOfWaterViewModel,
+    behaviour: Behaviour
+){
     Column {
         Text(
             text = stringResource(behaviour.title) ,
@@ -43,27 +53,46 @@ fun BehaviourComponent(behaviour: Behaviour){
             modifier = Modifier.fillMaxWidth(),
         )
         for(action in behaviour.actionList){
-            ActionComponent(action)
+            ActionComponent(
+                calculateAmount = {
+                    viewModel.addWaterConsumption(behaviour, action)
+                                  },
+                action,
+            )
         }
     }
 }
 
 @Composable
 fun ActionComponent(
+    calculateAmount: () -> Unit,
     action: Action
 ){
-    Row{
-        Image(
-            painter = painterResource(action.icon),
-            contentDescription = null,
-            modifier = Modifier
-                .size(dimensionResource(R.dimen.image_size))
-                .padding(dimensionResource(R.dimen.padding_small)),
+    Button(
+        onClick = calculateAmount,
+        modifier = Modifier.padding(8.dp),
+        colors = ButtonColors(
+            containerColor = if(action.isActionSelected) Color.Green else Color.Blue,
+            contentColor = Color.White,
+            disabledContentColor =  if(action.isActionSelected) Color.Blue else Color.Green,
+            disabledContainerColor = Color.White
         )
-        Text(
-            text= stringResource(action.behaviour),
-            modifier = Modifier.fillMaxWidth().align(Alignment.CenterVertically),
-        )
+    ) {
+        Row(
+            modifier = Modifier.padding(12.dp)
+        ) {
+            Image(
+                painter = painterResource(action.icon),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(dimensionResource(R.dimen.image_size))
+                    .padding(dimensionResource(R.dimen.padding_small)),
+            )
+            Text(
+                text = stringResource(action.behaviour),
+                modifier = Modifier.fillMaxWidth().align(Alignment.CenterVertically),
+            )
+        }
     }
 }
 
@@ -71,7 +100,10 @@ fun ActionComponent(
 @Composable
 fun BehaviourComponentPreview() {
     LitrosDeAguaTheme {
-        BehaviourLayout(BehaviourList.behaviours)
+        BehaviourLayout(
+            viewModel = viewModel(),
+            LitersOfWaterUiState()
+        )
     }
 }
 
