@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.dragonfruit.litrosdeagua.data.Action
 import com.dragonfruit.litrosdeagua.data.Behaviour
+import com.dragonfruit.litrosdeagua.data.BehaviourList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -41,6 +42,16 @@ class LitersOfWaterViewModel: ViewModel() {
             it.copy(
                 behaviourList = behaviourListCopy.toList(),
                 consumptionAmount = newConsumptionAmount,
+            )
+        }
+    }
+
+    fun waterPlant(){
+        _uiState.update {
+            it.copy(
+                plantWaterLevel = it.consumptionAmount + it.plantWaterLevel,
+                consumptionAmount = 0F,
+                behaviourList = BehaviourList.behaviours,
             )
         }
     }

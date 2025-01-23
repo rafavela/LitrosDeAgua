@@ -9,4 +9,5 @@ data class LitersOfWaterUiState(
     val wateringButtonColor: Color = Color.White,
     val consumptionAmount: Float = 0F,
     val behaviourList: List<Behaviour> = BehaviourList.behaviours,
+    val plantWaterLevel: Float = 0F,
 )

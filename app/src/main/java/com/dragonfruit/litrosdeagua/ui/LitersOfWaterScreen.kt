@@ -57,7 +57,9 @@ fun ShowScreen(viewModel: LitersOfWaterViewModel, litersOfWaterUiStateUiState: L
             viewModel = viewModel,
             litersOfWaterUiStateUiState = litersOfWaterUiStateUiState
         )
-        LitersOfWaterScreen.WATERING_SCREEN -> WaterPlantLayout()
+        LitersOfWaterScreen.WATERING_SCREEN -> WaterPlantLayout(litersOfWaterUiStateUiState) {
+            viewModel.waterPlant()
+        }
     }
 }
 

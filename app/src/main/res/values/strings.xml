@@ -31,4 +31,8 @@
     <string name="Behaviour4Answer4">Respuesta 4</string>
     <string name="Behaviour4Answer5">Respuesta 5</string>
     <string name="MeasureInLiters">Litros de agua</string>
+    <string name="CurrenPlantLevel">El nivel de agua de tu planta es: %1$.2f litros.</string>
+    <string name="CurrentPlantGoal">Logra %1$.2f litros para llegar al siguiente nivel</string>
+    <string name="BlossomingPlant">Tu planta ha florecido</string>
+
 </resources>
