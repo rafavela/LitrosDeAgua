@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,32 +40,40 @@ fun WaterPlantLayout(
     }
 
     Column(
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize()
     ) {
-        Text(
-            text = stringResource(R.string.CurrenPlantLevel, litersOfWaterUiState.plantWaterLevel),
-            modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-            )
-        Text(
-            text = goalConsumption,
-            modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-        )
-
-        Image(
-            painter = painterResource(plantState),
-            contentDescription = null,
-            modifier = Modifier
-                .size(dimensionResource(R.dimen.large_image_size))
-                .padding(dimensionResource(R.dimen.padding_small))
-                .fillMaxWidth()
-                .align(alignment = Alignment.CenterHorizontally),
-        )
-        Button(
-            onClick = waterPlant,
-            modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+        Card(
+            modifier = Modifier.fillMaxSize(),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
         ) {
-            Text("Regar plantita")
+            Text(
+                text = stringResource(
+                    R.string.CurrenPlantLevel,
+                    litersOfWaterUiState.plantWaterLevel
+                ),
+                modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+            )
+            Text(
+                text = goalConsumption,
+                modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+            )
+
+            Image(
+                painter = painterResource(plantState),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(dimensionResource(R.dimen.large_image_size))
+                    .padding(dimensionResource(R.dimen.padding_small))
+                    .fillMaxWidth()
+                    .align(alignment = Alignment.CenterHorizontally),
+            )
+            Button(
+                onClick = waterPlant,
+                modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+            ) {
+                Text("Regar plantita")
+            }
         }
     }
 }

@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,43 +26,45 @@ fun NavigationLayout(
     behaviourClick: () -> Unit,
     wateringClick:  () -> Unit,
 ){
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        Button(
-            onClick = behaviourClick,
-            colors = ButtonColors(
-                containerColor = litersOfWaterUiStateUiState.behaviourButtonColor,
-                contentColor = Color.White,
-                disabledContentColor = Color.White,
-                disabledContainerColor = Color.White
-            )
+    Card{
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Image(
-                painter = painterResource(R.drawable.fountain_icon),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(dimensionResource(R.dimen.image_size))
-                    .padding(dimensionResource(R.dimen.padding_small)),
-            )
-        }
-        Button(
-            onClick = wateringClick,
-            colors = ButtonColors(
-                containerColor = litersOfWaterUiStateUiState.wateringButtonColor,
-                contentColor = Color.White,
-                disabledContentColor = Color.White,
-                disabledContainerColor = Color.White
-            )
-        ) {
-            Image(
-                painter = painterResource(R.drawable.watering_icon),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(dimensionResource(R.dimen.image_size))
-                    .padding(dimensionResource(R.dimen.padding_small)),
-            )
+            Button(
+                onClick = behaviourClick,
+                colors = ButtonColors(
+                    containerColor = litersOfWaterUiStateUiState.behaviourButtonColor,
+                    contentColor = Color.White,
+                    disabledContentColor = Color.White,
+                    disabledContainerColor = Color.White
+                )
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.fountain_icon),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(dimensionResource(R.dimen.image_size))
+                        .padding(dimensionResource(R.dimen.padding_small)),
+                )
+            }
+            Button(
+                onClick = wateringClick,
+                colors = ButtonColors(
+                    containerColor = litersOfWaterUiStateUiState.wateringButtonColor,
+                    contentColor = Color.White,
+                    disabledContentColor = Color.White,
+                    disabledContainerColor = Color.White
+                )
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.watering_icon),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(dimensionResource(R.dimen.image_size))
+                        .padding(dimensionResource(R.dimen.padding_small)),
+                )
+            }
         }
     }
 }

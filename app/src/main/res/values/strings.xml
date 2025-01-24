@@ -34,5 +34,6 @@
     <string name="CurrenPlantLevel">El nivel de agua de tu planta es: %1$.2f litros.</string>
     <string name="CurrentPlantGoal">Logra %1$.2f litros para llegar al siguiente nivel</string>
     <string name="BlossomingPlant">Tu planta ha florecido</string>
+    <string name="Consumption">%1$.2f</string>
 
 </resources>

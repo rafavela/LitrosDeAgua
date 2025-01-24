@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
             LitrosDeAguaTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.background,
                 ){
                     LitersOfWaterLayout()
                 }
@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
 
 @Preview(showBackground = true)
 @Composable
-fun ListrosDeAguaPreview() {
+fun LitrosDeAguaPreview() {
     LitrosDeAguaTheme {
         LitersOfWaterLayout()
     }
@@ -42,7 +42,7 @@ fun ListrosDeAguaPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun ListrosDeAguaDarkThemePreview() {
+fun LitrosDeAguaDarkThemePreview() {
     LitrosDeAguaTheme(darkTheme = true) {
         LitersOfWaterLayout()
     }
