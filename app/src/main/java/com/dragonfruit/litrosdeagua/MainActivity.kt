@@ -34,8 +34,16 @@ class MainActivity : ComponentActivity() {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun ListrosDeAguaPreview() {
     LitrosDeAguaTheme {
+        LitersOfWaterLayout()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ListrosDeAguaDarkThemePreview() {
+    LitrosDeAguaTheme(darkTheme = true) {
         LitersOfWaterLayout()
     }
 }

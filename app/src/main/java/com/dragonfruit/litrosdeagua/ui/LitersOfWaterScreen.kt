@@ -23,7 +23,7 @@ enum class LitersOfWaterScreen(){
 
 
 @Composable
-fun LitersOfWaterLayout(){
+fun LitersOfWaterLayout(modifier: Modifier = Modifier){
     val viewModel: LitersOfWaterViewModel = viewModel()
     val litersOfWaterUiStateUiState = viewModel.uiState.collectAsState().value
 
@@ -34,7 +34,7 @@ fun LitersOfWaterLayout(){
             modifier =Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.Top
         ) {
             PointerHeader(consumption = litersOfWaterUiStateUiState.consumptionAmount)
             NavigationLayout(

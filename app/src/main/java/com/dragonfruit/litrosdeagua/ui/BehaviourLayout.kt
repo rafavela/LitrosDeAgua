@@ -1,10 +1,17 @@
 package com.dragonfruit.litrosdeagua.ui
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
@@ -23,14 +30,26 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 @Composable
 fun BehaviourLayout(
     viewModel: LitersOfWaterViewModel,
-    litersOfWaterUiStateUiState: LitersOfWaterUiState
+    litersOfWaterUiStateUiState: LitersOfWaterUiState,
+    modifier: Modifier = Modifier,
 ){
     LazyColumn(
         modifier = Modifier.fillMaxWidth()
@@ -42,24 +61,76 @@ fun BehaviourLayout(
 }
 
 @Composable
+private fun BehaviourComponentButton(
+    expanded: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+){
+    IconButton(
+        onClick = onClick,
+        modifier = modifier
+    ) {
+        Icon(
+            imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.secondary
+        )
+    }
+}
+
+@Composable
 fun BehaviourComponent(
     viewModel: LitersOfWaterViewModel,
+    behaviour: Behaviour,
+    modifier: Modifier = Modifier
+){
+    var expanded by remember { mutableStateOf(value = false) }
+    Card(modifier = modifier) {
+        Column(
+            modifier = Modifier
+                .animateContentSize(
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioNoBouncy,
+                        stiffness = Spring.StiffnessMedium
+                    )
+                )
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+
+                Text(
+                    text = stringResource(behaviour.title),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxSize(0.9f),
+                    style = MaterialTheme.typography.titleLarge,
+                )
+                BehaviourComponentButton(
+                    expanded = expanded,
+                    onClick = { expanded = !expanded  }
+                )
+            }
+            ActionList(viewModel = viewModel, expanded= expanded, behaviour= behaviour )
+        }
+    }
+    Spacer(Modifier.height(8.dp))
+}
+
+@Composable
+fun ActionList(
+    viewModel: LitersOfWaterViewModel,
+    expanded: Boolean,
     behaviour: Behaviour
 ){
-    Column {
-        Text(
-            text = stringResource(behaviour.title) ,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),
+    val behaviourList = if(expanded) behaviour.actionList else emptyList()
+    for (action in behaviourList) {
+        ActionComponent(
+            calculateAmount = {
+                viewModel.addWaterConsumption(behaviour, action)
+            },
+            action,
         )
-        for(action in behaviour.actionList){
-            ActionComponent(
-                calculateAmount = {
-                    viewModel.addWaterConsumption(behaviour, action)
-                                  },
-                action,
-            )
-        }
     }
 }
 
@@ -70,7 +141,7 @@ fun ActionComponent(
 ){
     Button(
         onClick = calculateAmount,
-        modifier = Modifier.padding(8.dp),
+        modifier = Modifier.padding(8.dp).height(80.dp),
         colors = ButtonColors(
             containerColor = if(action.isActionSelected) Color.Green else Color.Blue,
             contentColor = Color.White,
@@ -90,6 +161,7 @@ fun ActionComponent(
             )
             Text(
                 text = stringResource(action.behaviour),
+                style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.fillMaxWidth().align(Alignment.CenterVertically),
             )
         }
