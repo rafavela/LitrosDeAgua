@@ -34,18 +34,18 @@ fun LitersOfWaterLayout(modifier: Modifier = Modifier){
             modifier =Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
-            verticalArrangement = Arrangement.Top
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             PointerHeader(consumption = litersOfWaterUiStateUiState.consumptionAmount)
+            Spacer(
+                modifier = Modifier.height(12.dp)
+            )
+            ShowScreen(viewModel, litersOfWaterUiStateUiState)
             NavigationLayout(
                 litersOfWaterUiStateUiState,
                 behaviourClick = {viewModel.showBehavioursScreen()},
                 wateringClick = {viewModel.showWateringScreen()}
             )
-            Spacer(
-                modifier = Modifier.height(12.dp)
-            )
-            ShowScreen(viewModel, litersOfWaterUiStateUiState)
         }
     }
 }

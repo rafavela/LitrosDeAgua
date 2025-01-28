@@ -40,11 +40,11 @@ fun WaterPlantLayout(
     }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+//        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
     ) {
         Card(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
         ) {
             Text(

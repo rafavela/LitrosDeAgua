@@ -5,7 +5,7 @@ import com.dragonfruit.litrosdeagua.data.BehaviourList
 
 data class LitersOfWaterUiState(
     val litersOfWaterScreen: LitersOfWaterScreen = LitersOfWaterScreen.BEHAVIOUR_SCREEN,
-    val behaviourButtonColor: Color = Color.Green,
+    val behaviourButtonColor: Color = Color.Blue,
     val wateringButtonColor: Color = Color.White,
     val consumptionAmount: Float = 0F,
     val behaviourList: List<Behaviour> = BehaviourList.behaviours,
