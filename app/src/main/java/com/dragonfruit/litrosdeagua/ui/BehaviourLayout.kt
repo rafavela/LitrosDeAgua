@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -53,7 +54,7 @@ fun BehaviourLayout(
     modifier: Modifier = Modifier,
 ){
     LazyColumn(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxHeight(0.8f)
     ) {
         items (litersOfWaterUiStateUiState.behaviourList) {
             BehaviourComponent(viewModel = viewModel, behaviour = it)
