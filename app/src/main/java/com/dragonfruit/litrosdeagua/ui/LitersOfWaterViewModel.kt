@@ -1,7 +1,9 @@
 package com.dragonfruit.litrosdeagua.ui
 
+import androidx.annotation.DrawableRes
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import com.dragonfruit.litrosdeagua.R
 import com.dragonfruit.litrosdeagua.data.Action
 import com.dragonfruit.litrosdeagua.data.Behaviour
 import com.dragonfruit.litrosdeagua.data.BehaviourList
@@ -81,5 +83,22 @@ class LitersOfWaterViewModel: ViewModel() {
             )
 
         return behaviourListCopy
+    }
+
+    fun choosePlant(chosenPlant: Int){
+        _uiState.update {
+            it.copy(favouritePlant = chosenPlant)
+        }
+    }
+
+    fun resetState(){
+        _uiState.update {
+            it.copy(
+                consumptionAmount = 0F,
+                plantWaterLevel = 0F,
+                behaviourList = BehaviourList.behaviours,
+                favouritePlant= R.drawable.bull1,
+            )
+        }
     }
 }

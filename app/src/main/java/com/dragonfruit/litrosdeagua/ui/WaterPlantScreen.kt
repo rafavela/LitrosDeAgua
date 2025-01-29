@@ -1,9 +1,9 @@
 package com.dragonfruit.litrosdeagua.ui
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -20,27 +20,26 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.dragonfruit.litrosdeagua.R
+import com.dragonfruit.litrosdeagua.data.DataSource
 import com.dragonfruit.litrosdeagua.ui.theme.LitrosDeAguaTheme
+
+enum class WaterLevel{
+    LEVEL_1,
+    LEVEL_2,
+    LEVEL_3
+}
 
 @Composable
 fun WaterPlantLayout(
     litersOfWaterUiState: LitersOfWaterUiState,
     waterPlant:  () -> Unit
 ){
-    val plantState = when{
-        litersOfWaterUiState.plantWaterLevel > 30F
-                && litersOfWaterUiState.plantWaterLevel <=50F-> R.drawable.seedling_icon
-        litersOfWaterUiState.plantWaterLevel > 50F  -> R.drawable.garden_grass_icon
-        else -> R.drawable.seed_sprouting_icon
-    }
-    val goalConsumption = when(plantState){
-        R.drawable.seed_sprouting_icon -> stringResource(R.string.CurrentPlantGoal, 30.0F)
-        R.drawable.seedling_icon -> stringResource(R.string.CurrentPlantGoal, 50.0F)
-        else -> stringResource(R.string.BlossomingPlant)
-    }
+    val favouritePlantEvolution = getFavouritePlantEvolution(litersOfWaterUiState.favouritePlant)
+    val waterLevel = getWaterLevel(litersOfWaterUiState)
+    val plantState = getPlantState(waterLevel, favouritePlantEvolution)
+    val goalConsumption = getGoalConsumption(waterLevel)
 
     Column(
-//        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
     ) {
         Card(
@@ -72,11 +71,37 @@ fun WaterPlantLayout(
                 onClick = waterPlant,
                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
             ) {
-                Text("Regar plantita")
+                Text(text = stringResource(R.string.WaterPlant))
             }
         }
     }
 }
+
+fun getFavouritePlantEvolution(@DrawableRes favouritePlant: Int): List<Int> =
+    DataSource.plantEvoulutionMap[favouritePlant] ?: throw IllegalStateException()
+
+fun getWaterLevel(litersOfWaterUiState: LitersOfWaterUiState): WaterLevel =
+    when{
+        litersOfWaterUiState.plantWaterLevel < 30F -> WaterLevel.LEVEL_1
+        litersOfWaterUiState.plantWaterLevel >= 30F
+                && litersOfWaterUiState.plantWaterLevel < 50F  -> WaterLevel.LEVEL_2
+        else -> WaterLevel.LEVEL_3
+    }
+
+fun getPlantState(waterLevel: WaterLevel, plantEvolution: List<Int>): Int =
+    when(waterLevel){
+        WaterLevel.LEVEL_1 -> plantEvolution[0]
+        WaterLevel.LEVEL_2 -> plantEvolution[1]
+        WaterLevel.LEVEL_3 -> plantEvolution[2]
+    }
+
+@Composable
+fun getGoalConsumption(waterLevel: WaterLevel): String =
+    when(waterLevel){
+        WaterLevel.LEVEL_1 -> stringResource(R.string.CurrentPlantGoal, 30.0F)
+        WaterLevel.LEVEL_2 -> stringResource(R.string.CurrentPlantGoal, 50.0F)
+        WaterLevel.LEVEL_3 -> stringResource(R.string.BlossomingPlant)
+    }
 
 @Preview(showBackground = true)
 @Composable

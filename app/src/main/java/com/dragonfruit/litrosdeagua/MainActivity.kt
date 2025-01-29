@@ -11,7 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.dragonfruit.litrosdeagua.ui.LitersOfWaterLayout
+import com.dragonfruit.litrosdeagua.ui.AppLayout
 import com.dragonfruit.litrosdeagua.ui.theme.LitrosDeAguaTheme
 
 class MainActivity : ComponentActivity() {
@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ){
-                    LitersOfWaterLayout()
+                    AppLayout()
                 }
             }
         }
@@ -34,16 +34,16 @@ class MainActivity : ComponentActivity() {
 
 @Preview(showBackground = true)
 @Composable
-fun LitrosDeAguaPreview() {
+fun AppLayoutPreview() {
     LitrosDeAguaTheme {
-        LitersOfWaterLayout()
+        AppLayout()
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun LitrosDeAguaDarkThemePreview() {
+fun AppLayoutDarkThemePreview() {
     LitrosDeAguaTheme(darkTheme = true) {
-        LitersOfWaterLayout()
+        AppLayout()
     }
 }
