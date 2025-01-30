@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LitrosDeAgua</string>
+    <string name="app_name">Litros De Agua</string>
     <string name="ShowerTime">Cuanto te tardaste en bañar?</string>
     <string name="TenMinutes">10 minutos</string>
     <string name="MoreThanTenMinutes">Mas de 10 minutos</string>
