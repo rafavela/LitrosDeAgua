@@ -37,7 +37,7 @@ fun PointerHeader(
     modifier: Modifier = Modifier
 ){
     Card(
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
     ) {
         Column(
             modifier = Modifier.height(84.dp),

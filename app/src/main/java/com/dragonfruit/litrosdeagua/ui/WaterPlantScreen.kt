@@ -4,6 +4,8 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -39,13 +41,17 @@ fun WaterPlantLayout(
     val plantState = getPlantState(waterLevel, favouritePlantEvolution)
     val goalConsumption = getGoalConsumption(waterLevel)
 
-    Column(
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-        ) {
+    Card(
+        modifier =
+        Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(0.85f),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+    )  {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize(),
+        )  {
             Text(
                 text = stringResource(
                     R.string.CurrenPlantLevel,

@@ -20,8 +20,8 @@ class LitersOfWaterViewModel: ViewModel() {
         _uiState.update {
             it.copy(
                 litersOfWaterScreen = LitersOfWaterScreen.WATERING_SCREEN,
-                wateringButtonColor = Color.Green,
-                behaviourButtonColor = Color.White,
+                wateringButtonActive = true,
+                behaviourButtonActive = false,
             )
         }
     }
@@ -30,8 +30,8 @@ class LitersOfWaterViewModel: ViewModel() {
         _uiState.update {
             it.copy(
                 litersOfWaterScreen = LitersOfWaterScreen.BEHAVIOUR_SCREEN,
-                wateringButtonColor = Color.White,
-                behaviourButtonColor = Color.Green,
+                wateringButtonActive = false,
+                behaviourButtonActive = true,
             )
         }
     }

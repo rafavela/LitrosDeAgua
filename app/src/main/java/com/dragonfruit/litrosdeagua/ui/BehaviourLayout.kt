@@ -54,7 +54,7 @@ fun BehaviourLayout(
     modifier: Modifier = Modifier,
 ){
     LazyColumn(
-        modifier = Modifier.fillMaxHeight(0.8f)
+        modifier = Modifier.fillMaxHeight(0.85f)
     ) {
         items (litersOfWaterUiStateUiState.behaviourList) {
             BehaviourComponent(viewModel = viewModel, behaviour = it)
@@ -148,10 +148,10 @@ fun ActionComponent(
         onClick = calculateAmount,
         modifier = Modifier.padding(8.dp).height(80.dp),
         colors = ButtonColors(
-            containerColor = if(action.isActionSelected) Color.Green else Color.Blue,
-            contentColor = Color.White,
-            disabledContentColor =  if(action.isActionSelected) Color.Blue else Color.Green,
-            disabledContainerColor = Color.White
+            containerColor = if(action.isActionSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary,
+            contentColor =  if(action.isActionSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onTertiary,
+            disabledContentColor =  Color.White,
+            disabledContainerColor = Color.White,
         )
     ) {
         Row(

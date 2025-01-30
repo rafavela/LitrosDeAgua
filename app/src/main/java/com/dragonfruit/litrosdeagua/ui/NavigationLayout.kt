@@ -23,10 +23,12 @@ import com.dragonfruit.litrosdeagua.ui.theme.LitrosDeAguaTheme
 @Composable
 fun NavigationLayout(
     litersOfWaterUiStateUiState: LitersOfWaterUiState,
-    behaviourClick: () -> Unit,
+    behaviourClick:  () -> Unit,
     wateringClick:  () -> Unit,
 ){
-    Card{
+    Card(
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+    ){
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
@@ -34,7 +36,12 @@ fun NavigationLayout(
             Button(
                 onClick = behaviourClick,
                 colors = ButtonColors(
-                    containerColor = litersOfWaterUiStateUiState.behaviourButtonColor,
+                    containerColor =
+                        if(litersOfWaterUiStateUiState.behaviourButtonActive){
+                            MaterialTheme.colorScheme.inversePrimary
+                        }else{
+                            MaterialTheme.colorScheme.tertiaryContainer
+                        },
                     contentColor = Color.White,
                     disabledContentColor = Color.White,
                     disabledContainerColor = Color.White
@@ -51,7 +58,12 @@ fun NavigationLayout(
             Button(
                 onClick = wateringClick,
                 colors = ButtonColors(
-                    containerColor = litersOfWaterUiStateUiState.wateringButtonColor,
+                    containerColor =
+                        if(litersOfWaterUiStateUiState.wateringButtonActive){
+                            MaterialTheme.colorScheme.inversePrimary
+                        }else{
+                            MaterialTheme.colorScheme.tertiaryContainer
+                        },
                     contentColor = Color.White,
                     disabledContentColor = Color.White,
                     disabledContainerColor = Color.White

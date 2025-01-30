@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -33,6 +34,7 @@ fun AppLayout(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        containerColor = MaterialTheme.colorScheme.background,
     ) { innerPadding ->
         NavHost(
             navController = navController,
@@ -71,9 +73,7 @@ fun LitersOfWaterLayout(
     modifier: Modifier = Modifier,
 ){
     Column(
-        modifier =Modifier
-            .fillMaxSize()
-            .padding(innerPadding),
+        modifier =Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         PointerHeader(
@@ -83,8 +83,8 @@ fun LitersOfWaterLayout(
         ShowScreen(viewModel, litersOfWaterUiStateUiState)
         NavigationLayout(
             litersOfWaterUiStateUiState,
-            behaviourClick = {viewModel.showBehavioursScreen()},
-            wateringClick = {viewModel.showWateringScreen()}
+            behaviourClick = { viewModel.showBehavioursScreen() },
+            wateringClick = {viewModel.showWateringScreen()},
         )
     }
 }
