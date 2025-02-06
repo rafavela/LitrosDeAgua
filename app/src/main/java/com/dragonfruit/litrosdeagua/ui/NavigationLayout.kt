@@ -1,5 +1,6 @@
 package com.dragonfruit.litrosdeagua.ui
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -22,8 +23,9 @@ import com.dragonfruit.litrosdeagua.ui.theme.LitrosDeAguaTheme
 
 @Composable
 fun NavigationLayout(
-    litersOfWaterUiStateUiState: LitersOfWaterUiState,
+    litersOfWaterUiState: LitersOfWaterUiState,
     behaviourClick:  () -> Unit,
+    wasteClick:  () -> Unit,
     wateringClick:  () -> Unit,
 ){
     Card(
@@ -33,51 +35,52 @@ fun NavigationLayout(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Button(
+            MenuButton(
                 onClick = behaviourClick,
-                colors = ButtonColors(
-                    containerColor =
-                        if(litersOfWaterUiStateUiState.behaviourButtonActive){
-                            MaterialTheme.colorScheme.inversePrimary
-                        }else{
-                            MaterialTheme.colorScheme.tertiaryContainer
-                        },
-                    contentColor = Color.White,
-                    disabledContentColor = Color.White,
-                    disabledContainerColor = Color.White
-                )
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.fountain_icon),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(dimensionResource(R.dimen.image_size))
-                        .padding(dimensionResource(R.dimen.padding_small)),
-                )
-            }
-            Button(
+                isColorActive = litersOfWaterUiState.behaviourButtonActive,
+                imageId = R.drawable.fountain_icon,
+            )
+            MenuButton(
+                onClick = wasteClick,
+                isColorActive = litersOfWaterUiState.wasteButtonActive,
+                imageId = R.drawable.recycle_icon,
+            )
+            MenuButton(
                 onClick = wateringClick,
-                colors = ButtonColors(
-                    containerColor =
-                        if(litersOfWaterUiStateUiState.wateringButtonActive){
-                            MaterialTheme.colorScheme.inversePrimary
-                        }else{
-                            MaterialTheme.colorScheme.tertiaryContainer
-                        },
-                    contentColor = Color.White,
-                    disabledContentColor = Color.White,
-                    disabledContainerColor = Color.White
-                )
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.watering_icon),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(dimensionResource(R.dimen.image_size))
-                        .padding(dimensionResource(R.dimen.padding_small)),
-                )
-            }
+                isColorActive = litersOfWaterUiState.wateringButtonActive,
+                imageId = R.drawable.watering_icon,
+            )
         }
+    }
+}
+
+@Composable
+fun MenuButton(
+    onClick: () -> Unit,
+    isColorActive: Boolean,
+    @DrawableRes imageId: Int,
+){
+    Button(
+        onClick = onClick,
+        colors = ButtonColors(
+            containerColor =
+            if(isColorActive){
+                MaterialTheme.colorScheme.inversePrimary
+            }else{
+                MaterialTheme.colorScheme.tertiaryContainer
+            },
+            contentColor = Color.White,
+            disabledContentColor = Color.White,
+            disabledContainerColor = Color.White
+        )
+    ) {
+        Image(
+            painter = painterResource(imageId),
+            contentDescription = null,
+            modifier = Modifier
+                .size(dimensionResource(R.dimen.image_size))
+                .padding(dimensionResource(R.dimen.padding_small)),
+        )
     }
 }
 
@@ -86,10 +89,10 @@ fun NavigationLayout(
 fun NavigationLayoutPreview() {
     LitrosDeAguaTheme {
         NavigationLayout(
-            litersOfWaterUiStateUiState = LitersOfWaterUiState(),
+            litersOfWaterUiState = LitersOfWaterUiState(),
             behaviourClick = {},
+            wasteClick = {},
             wateringClick = {},
         )
     }
 }
-

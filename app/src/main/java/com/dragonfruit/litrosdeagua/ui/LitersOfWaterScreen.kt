@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 
 enum class LitersOfWaterScreen(){
     BEHAVIOUR_SCREEN,
+    WASTE_SCREEN,
     WATERING_SCREEN,
     CHOOSE_SCREEN,
 }
@@ -30,7 +31,7 @@ fun AppLayout(
     navController: NavHostController = rememberNavController()
 ){
     val viewModel: LitersOfWaterViewModel = viewModel()
-    val litersOfWaterUiStateUiState = viewModel.uiState.collectAsState().value
+    val litersOfWaterUiState = viewModel.uiState.collectAsState().value
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -53,7 +54,7 @@ fun AppLayout(
                 LitersOfWaterLayout(
                     innerPadding = innerPadding,
                     viewModel = viewModel,
-                    litersOfWaterUiStateUiState = litersOfWaterUiStateUiState,
+                    litersOfWaterUiState = litersOfWaterUiState,
                     onBackButtonClick = {
                         viewModel.resetState()
                         navController.navigateUp()
@@ -68,7 +69,7 @@ fun AppLayout(
 fun LitersOfWaterLayout(
     innerPadding: PaddingValues,
     viewModel: LitersOfWaterViewModel,
-    litersOfWaterUiStateUiState: LitersOfWaterUiState,
+    litersOfWaterUiState: LitersOfWaterUiState,
     onBackButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ){
@@ -78,25 +79,32 @@ fun LitersOfWaterLayout(
     ) {
         PointerHeader(
             onBackButtonClick = onBackButtonClick,
-            consumption = litersOfWaterUiStateUiState.consumptionAmount
+            consumption = litersOfWaterUiState.consumptionAmount
         )
-        ShowScreen(viewModel, litersOfWaterUiStateUiState)
+        ShowScreen(viewModel, litersOfWaterUiState)
         NavigationLayout(
-            litersOfWaterUiStateUiState,
+            litersOfWaterUiState =  litersOfWaterUiState,
             behaviourClick = { viewModel.showBehavioursScreen() },
+            wasteClick = { viewModel.showWasteScreen()},
             wateringClick = {viewModel.showWateringScreen()},
         )
     }
 }
 
 @Composable
-fun ShowScreen(viewModel: LitersOfWaterViewModel, litersOfWaterUiStateUiState: LitersOfWaterUiState){
-    when(litersOfWaterUiStateUiState.litersOfWaterScreen){
+fun ShowScreen(viewModel: LitersOfWaterViewModel, litersOfWaterUiState: LitersOfWaterUiState){
+    when(litersOfWaterUiState.litersOfWaterScreen){
         LitersOfWaterScreen.BEHAVIOUR_SCREEN -> BehaviourLayout(
             viewModel = viewModel,
-            litersOfWaterUiStateUiState = litersOfWaterUiStateUiState,
+            behaviourList = litersOfWaterUiState.waterBehaviourList,
+            litersOfWaterScreen = LitersOfWaterScreen.BEHAVIOUR_SCREEN,
         )
-        LitersOfWaterScreen.WATERING_SCREEN -> WaterPlantLayout(litersOfWaterUiStateUiState) {
+        LitersOfWaterScreen.WASTE_SCREEN -> BehaviourLayout(
+            viewModel = viewModel,
+            behaviourList = litersOfWaterUiState.wasteBehaviourList,
+            litersOfWaterScreen = LitersOfWaterScreen.WASTE_SCREEN,
+        )
+        LitersOfWaterScreen.WATERING_SCREEN -> WaterPlantLayout(litersOfWaterUiState) {
             viewModel.waterPlant()
         }
         else -> PlantChoiceLayout(

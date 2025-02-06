@@ -1,7 +1,5 @@
 package com.dragonfruit.litrosdeagua.ui
 
-import androidx.annotation.DrawableRes
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.dragonfruit.litrosdeagua.R
 import com.dragonfruit.litrosdeagua.data.Action
@@ -21,6 +19,18 @@ class LitersOfWaterViewModel: ViewModel() {
             it.copy(
                 litersOfWaterScreen = LitersOfWaterScreen.WATERING_SCREEN,
                 wateringButtonActive = true,
+                wasteButtonActive = false,
+                behaviourButtonActive = false,
+            )
+        }
+    }
+
+    fun showWasteScreen(){
+        _uiState.update {
+            it.copy(
+                litersOfWaterScreen = LitersOfWaterScreen.WASTE_SCREEN,
+                wateringButtonActive = false,
+                wasteButtonActive = true,
                 behaviourButtonActive = false,
             )
         }
@@ -31,42 +41,55 @@ class LitersOfWaterViewModel: ViewModel() {
             it.copy(
                 litersOfWaterScreen = LitersOfWaterScreen.BEHAVIOUR_SCREEN,
                 wateringButtonActive = false,
+                wasteButtonActive = false,
                 behaviourButtonActive = true,
             )
         }
     }
 
-    fun addWaterConsumption(selectedBehaviour: Behaviour, selectedAction: Action){
-        val behaviourListCopy = updateSelectedBehaviour(selectedBehaviour, selectedAction)
-        val newConsumptionAmount = behaviourListCopy.map { it.waterConsumed }.sum()
-
-        _uiState.update {
-            it.copy(
-                behaviourList = behaviourListCopy.toList(),
-                consumptionAmount = newConsumptionAmount,
-            )
+    fun addWaterConsumption(
+        selectedBehaviour: Behaviour,
+        selectedAction: Action,
+        litersOfWaterScreen: LitersOfWaterScreen,
+    ){
+        val behaviourCopyList = when(litersOfWaterScreen) {
+            LitersOfWaterScreen.BEHAVIOUR_SCREEN -> _uiState.value.waterBehaviourList
+            LitersOfWaterScreen.WASTE_SCREEN -> _uiState.value.wasteBehaviourList
+            else -> throw IllegalStateException("Illegal screen state")
         }
-    }
+        val newBehaviourList = updateSelectedBehaviour(
+            selectedBehaviour = selectedBehaviour,
+            selectedAction = selectedAction,
+            behaviourListCopy = behaviourCopyList.toMutableList()
+        )
+        val partialConsumptionAmount = when(litersOfWaterScreen) {
+                LitersOfWaterScreen.BEHAVIOUR_SCREEN -> _uiState.value.wasteBehaviourList
+                LitersOfWaterScreen.WASTE_SCREEN -> _uiState.value.waterBehaviourList
+                else -> throw IllegalStateException("Illegal screen state")
+            }
+            .calculateConsumptionAmount()
+        val newConsumptionAmount = newBehaviourList.calculateConsumptionAmount()
 
-    fun waterPlant(){
         _uiState.update {
-            it.copy(
-                plantWaterLevel = it.consumptionAmount + it.plantWaterLevel,
-                consumptionAmount = 0F,
-                behaviourList = BehaviourList.behaviours,
-            )
+            when(litersOfWaterScreen) {
+                LitersOfWaterScreen.BEHAVIOUR_SCREEN -> it.copy(
+                    waterBehaviourList = newBehaviourList,
+                    consumptionAmount = partialConsumptionAmount + newConsumptionAmount,
+                )
+                LitersOfWaterScreen.WASTE_SCREEN -> it.copy(
+                    wasteBehaviourList = newBehaviourList,
+                    consumptionAmount = partialConsumptionAmount + newConsumptionAmount,
+                )
+                else -> throw IllegalStateException("Illegal screen state")
+            }
         }
     }
 
     private fun updateSelectedBehaviour(
         selectedBehaviour: Behaviour,
-        selectedAction: Action
+        selectedAction: Action,
+        behaviourListCopy: MutableList<Behaviour>
     ): List<Behaviour>{
-        val behaviourListCopy =
-            _uiState
-                .value
-                .behaviourList
-                .toMutableList()
         val indexBehaviour = behaviourListCopy.indexOf(selectedBehaviour)
         val actionListCopy = behaviourListCopy[indexBehaviour].actionList
         val indexAction = actionListCopy.indexOf(selectedAction)
@@ -85,6 +108,22 @@ class LitersOfWaterViewModel: ViewModel() {
         return behaviourListCopy
     }
 
+    private fun List<Behaviour>.calculateConsumptionAmount(): Float =
+        this.toMutableList()
+            .map { it.waterConsumed  }
+            .sum()
+
+    fun waterPlant(){
+        _uiState.update {
+            it.copy(
+                plantWaterLevel = it.consumptionAmount + it.plantWaterLevel,
+                consumptionAmount = 0F,
+                waterBehaviourList = BehaviourList.waterBehaviours,
+                wasteBehaviourList = BehaviourList.wasteBehaviours,
+            )
+        }
+    }
+
     fun choosePlant(chosenPlant: Int){
         _uiState.update {
             it.copy(favouritePlant = chosenPlant)
@@ -96,7 +135,8 @@ class LitersOfWaterViewModel: ViewModel() {
             it.copy(
                 consumptionAmount = 0F,
                 plantWaterLevel = 0F,
-                behaviourList = BehaviourList.behaviours,
+                waterBehaviourList = BehaviourList.waterBehaviours,
+                wasteBehaviourList = BehaviourList.wasteBehaviours,
                 favouritePlant= R.drawable.bull1,
             )
         }

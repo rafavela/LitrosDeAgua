@@ -46,18 +46,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.dragonfruit.litrosdeagua.data.BehaviourList
 
 @Composable
 fun BehaviourLayout(
     viewModel: LitersOfWaterViewModel,
-    litersOfWaterUiStateUiState: LitersOfWaterUiState,
+    behaviourList: List<Behaviour>,
+    litersOfWaterScreen: LitersOfWaterScreen,
     modifier: Modifier = Modifier,
 ){
     LazyColumn(
-        modifier = Modifier.fillMaxHeight(0.85f)
+        modifier = Modifier.fillMaxHeight(fraction = 0.85f)
     ) {
-        items (litersOfWaterUiStateUiState.behaviourList) {
-            BehaviourComponent(viewModel = viewModel, behaviour = it)
+        items (behaviourList) {
+            BehaviourComponent(
+                viewModel = viewModel,
+                behaviour = it,
+                litersOfWaterScreen= litersOfWaterScreen,
+            )
         }
     }
 }
@@ -84,6 +90,7 @@ private fun BehaviourComponentButton(
 fun BehaviourComponent(
     viewModel: LitersOfWaterViewModel,
     behaviour: Behaviour,
+    litersOfWaterScreen: LitersOfWaterScreen,
     modifier: Modifier = Modifier
 ){
     var expanded by remember { mutableStateOf(value = false) }
@@ -116,7 +123,12 @@ fun BehaviourComponent(
                     onClick = { expanded = !expanded  }
                 )
             }
-            ActionList(viewModel = viewModel, expanded= expanded, behaviour= behaviour )
+            ActionList(
+                viewModel = viewModel,
+                expanded = expanded,
+                behaviour = behaviour,
+                litersOfWaterScreen = litersOfWaterScreen,
+                )
         }
     }
     Spacer(Modifier.height(8.dp))
@@ -126,13 +138,14 @@ fun BehaviourComponent(
 fun ActionList(
     viewModel: LitersOfWaterViewModel,
     expanded: Boolean,
-    behaviour: Behaviour
+    behaviour: Behaviour,
+    litersOfWaterScreen: LitersOfWaterScreen
 ){
     val behaviourList = if(expanded) behaviour.actionList else emptyList()
     for (action in behaviourList) {
         ActionComponent(
             calculateAmount = {
-                viewModel.addWaterConsumption(behaviour, action)
+                viewModel.addWaterConsumption(behaviour, action, litersOfWaterScreen)
             },
             action,
         )
@@ -179,7 +192,8 @@ fun BehaviourComponentPreview() {
     LitrosDeAguaTheme {
         BehaviourLayout(
             viewModel = viewModel(),
-            LitersOfWaterUiState()
+            behaviourList = BehaviourList.waterBehaviours,
+            litersOfWaterScreen = LitersOfWaterScreen.BEHAVIOUR_SCREEN
         )
     }
 }
